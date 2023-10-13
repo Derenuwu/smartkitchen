@@ -1,4 +1,4 @@
-package com.teamofdream.smart_kitchen.controller;
+package com.sm_kitchen.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;

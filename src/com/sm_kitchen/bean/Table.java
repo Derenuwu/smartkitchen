@@ -1,4 +1,4 @@
-package com.teamofdream.smart_kitchen.bean;
+package com.sm_kitchen.bean;
 
 public class Table {
    private Long id;
