@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                      https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+  version="6.0"
+  metadata-complete="true">
+
+  <servlet>
+    <servlet-name>DishServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.DishServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DishServlet</servlet-name>
+    <url-pattern>/servlet/dish</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>TableServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.TableServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TableServlet</servlet-name>
+    <url-pattern>/servlet/tables</url-pattern>
+    <url-pattern>/servlet/tableinfo</url-pattern>
+  </servlet-mapping>
+  <!-- http://localhost:8080/smart_kitchen/servlet/tables -->
+ <!-- http://localhost:8080/smartkitchen123/servlet/tableinfo?table_id=1-->
+
+</web-app>
