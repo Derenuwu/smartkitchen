@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    box-sizing: border-box;
+
+}
+
+
+body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.cards{
+    max-height: 10%;
+    width:auto;
+    background-color:rgb(212, 85, 34);
+    display: inline-block;
+    border-radius: 5px;
+    margin: 50px;
+    box-shadow: 2px 2px 10px black;
+    align-self: center;
+}
+
+.cards:hover{
+    box-shadow: 2px 2px 10px rgb(202, 77, 77);
+}
+
+.image img{
+    width: 263px;
+    height: 200px;
+    border-radius: 5px;
+}
+
+.title{
+    text-align: center;
+}
+
+.container {
+    padding: 120px 190px;
+}
+
+
+a {
+    text-decoration: none; /* Remove the underline */
+    color: #050505; /* Change the color to red (#FF0000) */
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh; /* Set the container height to viewport height for vertical centering */
+}
