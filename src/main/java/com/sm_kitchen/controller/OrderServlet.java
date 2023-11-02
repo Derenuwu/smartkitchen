@@ -13,66 +13,38 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
 public class OrderServlet extends HttpServlet {
-
     @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Handle GET requests related to orders here
-    // You can implement order retrieval logic here
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Process order logic related to front-end POST requests
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
 
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-    PrintWriter out = response.getWriter();
+        try {
+            // Parse the order data sent by the front end
+            String requestBody = request.getReader().lines().reduce("", (accumulator, actual) -> accumulator + actual);
+            ObjectMapper objectMapper = new ObjectMapper();
+            Order newOrder = objectMapper.readValue(requestBody, Order.class);
 
-    try {
-        // Implement the logic to retrieve orders (replace with your actual implementation)
-        List<Order> orders = getOrderDataFromService(); // You should call a method to get the order data
+            // Here you can perform operations such as adding orders to the shopping cart or database
+            List<Order> newOrders = addOrderToCart(newOrder);
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(orders);
-        out.println(json);
-    } catch (Exception e) {
-        e.printStackTrace();
-        out.println("An error occurred while fetching orders.");
+            // Send the JSON response of the new order back to the front end
+            objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(newOrders);
+            out.println(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("An error occurred while creating the order.");
+        }
     }
-}
 
-// Replace this with your actual order retrieval logic
-private List<Order> getOrderDataFromService() {
-    List<Order> orders = new ArrayList<>();
-    // Add logic to retrieve orders from a data source
-    return orders;
-}
-
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // Handle POST requests related to orders here
-    // You can implement order creation logic here
-
-    response.setContentType("application/json");
-    response.setCharacterEncoding("UTF-8");
-    PrintWriter out = response.getWriter();
-
-    try {
-        // Implement the logic to create orders (replace with your actual implementation)
-        Order newOrder = createOrderFromRequest(request); // You should parse the request data and create an Order object
-
-        // Create a list containing the newOrder
-        List<Order> newOrders = new ArrayList<>();
-        newOrders.add(newOrder);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(newOrders);
-        out.println(json);
-    } catch (Exception e) {
-        e.printStackTrace();
-        out.println("An error occurred while creating the order.");
+    //Logic for adding orders to shopping cart or database
+    private List<Order> addOrderToCart(Order newOrder) {
+        List<Order> orders = new ArrayList<>();
+        //Add order to shopping cart or database
+        orders.add(newOrder); 
+        return orders;
     }
-}
-
-private Order createOrderFromRequest(HttpServletRequest request) {
-    return null;
-}
-
-
 }
