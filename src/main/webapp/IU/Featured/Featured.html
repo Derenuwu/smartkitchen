@@ -66,12 +66,12 @@
 
 
     <script>
-        // 点击添加按钮时触发的函数
+        // A function triggered when the add button is clicked, using the Fetch API to send an order request to the backend
         function addToCart(name, price) {
-            // 创建包含要添加菜品信息的对象
+            //Create an object containing the dish information to be added
             const item = { name, price };
 
-            // 使用 Fetch API 发送 POST 请求到后端
+            // Use Fetch API to send POST request to backend
             fetch('/api/add-to-cart', {
                 method: 'POST',
                 headers: {
@@ -86,8 +86,8 @@
                     return response.json();
                 })
                 .then(data => {
-                    // 处理来自服务器的响应数据，更新本地购物车和总价
-                    // 这里可以更新购物车显示或执行其他操作
+                    // Process the response data from the server and update the local shopping cart and total price
+                    //Here you can update the shopping cart display or perform other operations
                     updateCart(data.cart, data.total);
                 })
                 .catch(error => {
@@ -96,13 +96,13 @@
         }
 
         function updateCart(cart, total) {
-            // 更新本地购物车和总价
-            // 这里可以更新购物车显示
+            //Update local shopping cart and total price
+            // Here you can update the shopping cart display
             console.log('Updated cart:', cart);
             console.log('Updated total:', total);
         }
 
-        // 监听添加按钮点击事件
+        //Add button click event
         var addButtons = document.querySelectorAll(".add-button");
         addButtons.forEach(function (button) {
             button.addEventListener("click", function () {
