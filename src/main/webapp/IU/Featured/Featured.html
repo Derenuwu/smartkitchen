@@ -67,12 +67,12 @@
 
     <script>
         // A function triggered when the add button is clicked, using the Fetch API to send an order request to the backend
-        function addToCart(name, price) {
+        async function addToCart(name, price) {
             //Create an object containing the dish information to be added
             const item = { name, price };
 
             // Use Fetch API to send POST request to backend
-            fetch('/api/add-to-cart', {
+            await fetch('http://localhost:8080/smartkitchen123/api/add-to-cart', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
