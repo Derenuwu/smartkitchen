@@ -90,7 +90,7 @@
                 .then(data => {
                     // Process the response data from the server and update the local shopping cart and total price
                     //Here you can update the shopping cart display or perform other operations
-                    updateCart(data.cart, data.total);
+                    updateCart(data.items, data.total);
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
