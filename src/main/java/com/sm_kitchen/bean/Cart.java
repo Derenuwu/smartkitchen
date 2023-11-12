@@ -27,4 +27,9 @@ public class Cart {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public Dish[] getItemsArray() {
+        return items.toArray(new Dish[0]);
+    }
+    
 }
