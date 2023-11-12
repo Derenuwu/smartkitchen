@@ -37,6 +37,17 @@
     <url-pattern>/api/add-to-cart</url-pattern>
 </servlet-mapping>
 
+<servlet>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.RemoveFromCartServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <url-pattern>/api/remove-from-cart</url-pattern>
+</servlet-mapping>
+
+
  <!-- http://localhost:8080/smartkitchen123/servlet/tableinfo?table_id=1-->
  <!--http://localhost:8080/smartkitchen123/IU/index.html-->
 
