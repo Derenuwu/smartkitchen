@@ -17,6 +17,7 @@
             <a href="../Sides/Side.html">Sides</a>
             <a href="../pizza/p.html">Pizza</a>
             <a href="../drinks/dd.html">Drinks</a>
+            <a href="#" id="checkout-link">Checkout</a>
         </ul>
     </nav>
 
@@ -31,47 +32,24 @@
         </div>
     </div>
 
-    <div class="cards">
-        <div class="image">
-            <img src="ccwarp.jpg" alt="Crispy Chicken Wraps">
-        </div>
-        <div class="title">
-            <h1>CrispyC wraps</h1>
-            <button class="add-button" data-name="Crispy wraps" data-price="2.99">+</button>
-            <button class="remove-button" data-name="Crispy wraps" data-price="2.99">-</button>
-        </div>
+    <div id="checkout-page">
+        <h2>Checkout Page</h2>
+        <ul id="cart-list"></ul>
+        <p>Total: $<span id="total-price">0.00</span></p>
     </div>
 
-    <div class="cards">
-        <div class="image">
-            <img src="hotdog.jpg" alt="hotdog">
-        </div>
-        <div class="title">
-            <h1>Hot Dog</h1>
-            <button class="add-button" data-name="Hot dog" data-price="1.99">+</button>
-            <button class="remove-button" data-name="Hot dog" data-price="1.99">-</button>
-        </div>
+    <!-- Checkout 模态框 -->
+    <div id="checkout-modal" style="display: none;">
+        <h2>Checkout</h2>
+        <ul id="cart-list-modal"></ul>
+        <p>Total: $<span id="total-price-modal">0.00</span></p>
+        <button onclick="closeCheckoutModal()">Close</button>
     </div>
-
-    <div class="cards">
-        <div class="image">
-            <img src="bb.jpg" alt="Bacon burger">
-        </div>
-        <div class="title">
-            <h1>Bacon burger</h1>
-            <button class="add-button" data-name="Bacon burger" data-price="4.39">+</button>
-            <button class="remove-button" data-name="Bacon burger" data-price="4.39">-</button>
-        </div>
-    </div>
-
 
     <script>
-        // A function triggered when the add button is clicked, using the Fetch API to send an order request to the backend
         async function addToCart(name, price) {
-            //Create an object containing the dish information to be added
             const item = { name, price };
 
-            // Use Fetch API to send POST request to backend
             await fetch('http://localhost:8080/smartkitchen123/api/add-to-cart', {
                 method: 'POST',
                 headers: {
@@ -79,8 +57,6 @@
                 },
                 body: JSON.stringify(item),
             })
-
-
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response failed');
@@ -88,8 +64,6 @@
                     return response.json();
                 })
                 .then(data => {
-                    // Process the response data from the server and update the local shopping cart and total price
-                    //Here you can update the shopping cart display or perform other operations
                     updateCart(data.items, data.total);
                 })
                 .catch(error => {
@@ -98,13 +72,99 @@
         }
 
         function updateCart(cart, total) {
-            //Update local shopping cart and total price
-            // Here you can update the shopping cart display
+            // Update local shopping cart and total price
             console.log('Updated cart:', cart);
             console.log('Updated total:', total);
+
+            // Update the checkout page
+            const cartList = document.getElementById('cart-list');
+            const totalPrice = document.getElementById('total-price');
+
+            // Clear previous content
+            cartList.innerHTML = '';
+
+            if (Array.isArray(cart) && cart.length > 0) {
+                // Use a regular for loop to iterate through the cart
+                for (let i = 0; i < cart.length; i++) {
+                    const item = cart[i];
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                    cartList.appendChild(listItem);
+                }
+            } else {
+                // Handle an empty cart (adjust this part based on your actual structure)
+                const listItem = document.createElement('li');
+                listItem.textContent = 'Cart is empty';
+                cartList.appendChild(listItem);
+            }
+
+            // Update the total price
+            totalPrice.textContent = total.toFixed(2);
         }
 
-        //Add button click event
+        async function removeFromCart(name, price) {
+            const item = { name, price };
+
+            try {
+                const response = await fetch('http://localhost:8080/smartkitchen123/api/remove-from-cart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(item),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response failed');
+                }
+
+                const data = await response.json();
+
+                if (data.cart && data.total !== undefined) {
+                    // Check if the expected structure is present
+                    updateCart(data.cart, data.total);
+                } else {
+                    // Handle unexpected response structure
+                    console.error('Unexpected response structure:', data);
+                }
+            } catch (error) {
+                console.error('There was a problem with the fetch operation:', error);
+            }
+        }
+
+
+
+
+        function updateCart(cart, total) {
+            // Update local shopping cart and total price
+            console.log('Updated cart:', cart);
+            console.log('Updated total:', total);
+
+            // Update the checkout page
+            const cartList = document.getElementById('cart-list');
+            const totalPrice = document.getElementById('total-price');
+
+            // Clear previous content
+            cartList.innerHTML = '';
+
+            if (Array.isArray(cart) || typeof cart === 'object') {
+                // Use a regular for loop to iterate through the cart
+                for (let i = 0; i < cart.length; i++) {
+                    const item = cart[i];
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                    cartList.appendChild(listItem);
+                }
+            } else {
+                // Handle other cases (if needed)
+                console.error('Unsupported cart structure:', cart);
+            }
+
+            // Update the total price
+            totalPrice.textContent = total.toFixed(2);
+        }
+
+
         var addButtons = document.querySelectorAll(".add-button");
         addButtons.forEach(function (button) {
             button.addEventListener("click", function () {
@@ -113,7 +173,45 @@
                 addToCart(name, price);
             });
         });
+
+        var removeButtons = document.querySelectorAll(".remove-button");
+        removeButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                var name = button.getAttribute("data-name");
+                var price = parseFloat(button.getAttribute("data-price"));
+                console.log("Removing:", name, price);
+                removeFromCart(name, price);
+            });
+        });
+
+        // Inside openCheckoutModal function
+        function openCheckoutModal() {
+            console.log('Opening Checkout Modal');
+            const modal = document.getElementById('checkout-modal');
+            modal.style.display = 'block';
+        }
+
+        // Inside closeCheckoutModal function
+        function closeCheckoutModal() {
+            console.log('Closing Checkout Modal');
+            const modal = document.getElementById('checkout-modal');
+            modal.style.display = 'none';
+        }
+
+
+        const cartIcon = document.getElementById('cart-icon');
+        cartIcon.addEventListener('click', function () {
+            openCheckoutModal();
+        });
+
+
+        const checkoutLink = document.getElementById('checkout-link');
+        checkoutLink.addEventListener('click', function () {
+            openCheckoutModal();
+        });
     </script>
+
+
 </body>
 
 </html>
