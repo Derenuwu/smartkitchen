@@ -14,7 +14,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart addToCart(Dish dish) {
+    public synchronized Cart addToCart(Dish dish) {
         if (dish != null) {
             // Add the item to the shopping cart
             List<Dish> items = cart.getItems();
@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Cart removeFromCart(Dish dish) {
+    public synchronized Cart removeFromCart(Dish dish) {
         if (dish != null) {
             // Remove the item from the shopping cart
             List<Dish> items = cart.getItems();
