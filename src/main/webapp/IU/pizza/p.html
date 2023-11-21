@@ -1,72 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="shortcut icon" href="paimon.png" />
-    <link rel="stylesheet" href="../style.css"></link>
-
+    <link rel="stylesheet" href="../style.css">
     <title>Smart Kitchen</title>
+    <script src="./cart.js"></script>
 </head>
 
 <body>
-  <nav>
-    <ul class="nav_links">
-      <a href="../index.html">Home</a>
-      <a href="../Featured/Featured.html">Featured</a>
-      <a href="../meals/meal.html">Sandwiches & meals</a>
-      <a href="../Sides/Side.html">Sides</a>
-      <a href="../pizza/p.html">Pizza</a>
-      <a href="../drinks/dd.html">Drinks</a>
-    </ul>
-  </nav>  
+    <nav>
+        <ul class="nav_links">
+            <a href="../index.html">Home</a>
+            <a href="../Featured/Featured.html">Featured</a>
+            <a href="../meals/meal.html">Sandwiches & meals</a>
+            <a href="../Sides/Side.html">Sides</a>
+            <a href="../pizza/p.html">Pizza</a>
+            <a href="../drinks/dd.html">Drinks</a>
+        </ul>
+    </nav>
 
-  <div class="cards">
-    <div class="image">
-        <img src="cp.jpg" alt="Cheese Pizza">
+    <div class="cards">
+        <div class="image">
+            <img src="cp.jpg" alt="Cheese Pizza">
+        </div>
+        <div class="title">
+            <h1>Cheese Pizza</h1>
+            <button class="add-button" data-name="Cheese burger" data-price="9.00">+</button>
+            <button class="remove-button" data-name="Cheese burger" data-price="9.00">-</button>
+        </div>
     </div>
-    <div class="title">
-        <h1>Cheese Pizza</h1>
-        <button>+</button>
+
+    <div class="cards">
+        <div class="image">
+            <img src="vp.jpg" alt="Veggie Pizza">
+        </div>
+        <div class="title">
+            <h1>Veggie Pizza</h1>
+            <button class="add-button" data-name="Veggie Pizza" data-price="9.00">+</button>
+            <button class="remove-button" data-name="Veggie Pizza" data-price="9.00">-</button>
+        </div>
     </div>
+
+    <div class="cards">
+        <div class="image">
+            <img src="pp.jpg" alt="Pepperoni Pizza">
+        </div>
+        <div class="title">
+            <h1>Pepperoni Pizza</h1>
+            <button class="add-button" data-name="Pepperoni Pizza" data-price="9.00">+</button>
+            <button class="remove-button" data-name="Pepperoni Pizza" data-price="9.00">-</button>
+        </div>
+    </div>
+
+    <div class="cards">
+        <div class="image">
+            <img src="hp.jpg" alt="Hawaiian Pizza">
+        </div>
+        <div class="title">
+            <h1>Hawaiian Pizzar</h1>
+            <button class="add-button" data-name="Hawaiian Pizza" data-price="9.00">+</button>
+            <button class="remove-button" data-name="Hawaiian Pizza" data-price="9.00">-</button>
+        </div>
+    </div>
+
+
+    <div class="cards">
+        <div class="image">
+            <img src="bp.jpg" alt="Buffalo Pizza">
+        </div>
+        <div class="title">
+            <h1>Buffalo Pizza</h1>
+            <button class="add-button" data-name="Buffalo Pizzar" data-price="9.00">+</button>
+            <button class="remove-button" data-name="Buffalo Pizza" data-price="9.00">-</button>
+        </div>
+    </div>
+
+</body>
+
+<div id="checkout-page">
+    <h2>Checkout Page</h2>
+    <ul id="cart-list"></ul>
+    <p>Total: $<span id="total-price">0.00</span></p>
 </div>
 
-<div class="cards">
-    <div class="image">
-        <img src="vp.jpg" alt="Veggie Pizza">
-    </div>
-    <div class="title">
-        <h1>Veggie Pizza</h1>
-        <button>+</button>
-    </div>
+<!-- Checkout 模态框 -->
+<div id="checkout-modal" style="display: none;">
+    <h2>Checkout</h2>
+    <ul id="cart-list-modal"></ul>
+    <p>Total: $<span id="total-price-modal">0.00</span></p>
+    <button onclick="closeCheckoutModal()">Close</button>
 </div>
 
-<div class="cards">
-    <div class="image">
-        <img src="pp.jpg" alt="Pepperoni Pizza">
-    </div>
-    <div class="title">
-        <h1>Pepperoni Pizza</h1>
-        <button>+</button>
-    </div>
-</div>
+<script>
+    async function addToCart(name, price) {
+        const item = { name, price };
 
-<div class="cards">
-  <div class="image">
-      <img src="hp.jpg" alt="Hawaiian Pizza">
-  </div>
-  <div class="title">
-      <h1>Hawaiian Pizza</h1>
-      <button>+</button>
-  </div>
-</div>
+        await fetch('http://localhost:8080/smartkitchen123/api/add-to-cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(item),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                updateCart(data.items, data.total);
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
 
-<div class="cards">
-  <div class="image">
-      <img src="bp.jpg" alt="Buffalo Pizza">
-  </div>
-  <div class="title">
-      <h1>Buffalo Pizza</h1>
-      <button>+</button>
-  </div>
-  
-  </body>
+    function updateCart(cart, total) {
+        cartitems = [...cart];
+        // Update local shopping cart and total price
+        console.log('Updated cart:', cartitems);
+        console.log('Updated total:', total);
+
+
+        // Update the checkout page
+        const cartList = document.getElementById('cart-list');
+        const totalPrice = document.getElementById('total-price');
+
+        // Clear previous content
+        cartList.innerHTML = '';
+
+        if (Array.isArray(cart) && cart.length > 0) {
+            // Use a regular for loop to iterate through the cart
+            for (let i = 0; i < cart.length; i++) {
+                const item = cart[i];
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartList.appendChild(listItem);
+            }
+        } else {
+            // Handle an empty cart (adjust this part based on your actual structure)
+            const listItem = document.createElement('li');
+            listItem.textContent = 'Cart is empty';
+            cartList.appendChild(listItem);
+        }
+
+        // Update the total price
+        totalPrice.textContent = total.toFixed(2);
+    }
+
+    async function removeFromCart(name, price, cart) {
+        const item = { name, price, cartitems };
+        console.log("remove from cart function : ", item);
+        try {
+            const response = await fetch('http://localhost:8080/smartkitchen123/api/remove-from-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(item),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response failed');
+            }
+
+            const data = await response.json();
+
+            if (data.cart && data.total !== undefined) {
+                // Check if the expected structure is present
+                updateCart(data.cart, data.total);
+            } else {
+                // Handle unexpected response structure
+                console.error('Unexpected response structure:', data);
+            }
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+    }
+
+
+
+
+    function updateCart(cart, total) {
+        cartitems = [...cart];
+        // Update local shopping cart and total price
+        console.log('Updated cart:', cart);
+        console.log('Updated total:', total);
+
+        // Update the checkout page
+        const cartList = document.getElementById('cart-list');
+        const totalPrice = document.getElementById('total-price');
+
+        // Clear previous content
+        cartList.innerHTML = '';
+
+        if (Array.isArray(cart) || typeof cart === 'object') {
+            // Use a regular for loop to iterate through the cart
+            for (let i = 0; i < cart.length; i++) {
+                const item = cart[i];
+                const listItem = document.createElement('li');
+                listItem.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+                cartList.appendChild(listItem);
+            }
+        } else {
+            // Handle other cases (if needed)
+            console.error('Unsupported cart structure:', cart);
+        }
+
+        // Update the total price
+        totalPrice.textContent = total.toFixed(2);
+    }
+
+
+    var addButtons = document.querySelectorAll(".add-button");
+    addButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var name = button.getAttribute("data-name");
+            var price = parseFloat(button.getAttribute("data-price"));
+            addToCart(name, price);
+        });
+    });
+
+    var removeButtons = document.querySelectorAll(".remove-button");
+    removeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            var name = button.getAttribute("data-name");
+            var price = parseFloat(button.getAttribute("data-price"));
+            console.log("Removing:", name, price, cartitems);
+            removeFromCart(name, price, cartitems);
+        });
+    });
+
+    // Inside openCheckoutModal function
+    function openCheckoutModal() {
+        console.log('Opening Checkout Modal');
+        const modal = document.getElementById('checkout-modal');
+        modal.style.display = 'block';
+    }
+
+    // Inside closeCheckoutModal function
+    function closeCheckoutModal() {
+        console.log('Closing Checkout Modal');
+        const modal = document.getElementById('checkout-modal');
+        modal.style.display = 'none';
+    }
+
+
+    const cartIcon = document.getElementById('cart-icon');
+    cartIcon.addEventListener('click', function () {
+        openCheckoutModal();
+    });
+
+
+    const checkoutLink = document.getElementById('checkout-link');
+    checkoutLink.addEventListener('click', function () {
+        openCheckoutModal();
+    });
+</script>
+
+
+</body>
+
+</html>
