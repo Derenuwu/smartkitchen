@@ -14,7 +14,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public synchronized Cart addToCart(Dish dish) {
+    public Cart addToCart(Dish dish) {
         if (dish != null) {
             // Add the item to the shopping cart
             List<Dish> items = cart.getItems();
@@ -31,34 +31,37 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public synchronized Cart removeFromCart(Dish dish) {
-        if (dish != null) {
-            // Remove the item from the shopping cart
-            List<Dish> items = cart.getItems();
-            double total = cart.getTotal();
+    public Cart getCart() {
+        // Return the current status of the shopping cart 
+        return cart;
+    }
 
-            for (int i = 0; i < items.size(); i++) {
-                Dish item = items.get(i);
-                if (item.getId() == dish.getId()) {
-                    total -= item.getPrice();
-                    items.remove(i);
+    @Override
+    public Cart removeFromCartA(List<Dish> dishes, Dish dish) {
+        if (dish != null && !dishes.isEmpty()) {            
+
+            for (int i = 0; i < dishes.size(); i++) {
+                Dish item = dishes.get(i);
+                if (dish.getName().equals(item.getName())) {
+                    dishes.remove(i);
                     break;
                 }
             }
 
+            //get total
+            double total = 0;
+            for (int i = 0; i < dishes.size(); i++) {
+                total += dishes.get(i).getPrice();
+            }
+
             // Update the total of the shopping cart
             cart.setTotal(total);
+            cart.setItems(dishes);
 
             return cart;
         } else {
             // Handle the case where the dish is null
             throw new IllegalArgumentException("Dish cannot be null");
         }
-    }
-
-    @Override
-    public Cart getCart() {
-        // Return the current status of the shopping cart
-        return cart;
     }
 }

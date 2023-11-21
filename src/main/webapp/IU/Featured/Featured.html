@@ -6,6 +6,7 @@
     <link rel="shortcut icon" href="paimon.png" />
     <link rel="stylesheet" href="../style.css">
     <title>Smart Kitchen</title>
+    <script src="./cart.js"></script>
 </head>
 
 <body>
@@ -72,9 +73,11 @@
         }
 
         function updateCart(cart, total) {
+            cartitems = [...cart];
             // Update local shopping cart and total price
-            console.log('Updated cart:', cart);
+            console.log('Updated cart:', cartitems);
             console.log('Updated total:', total);
+
 
             // Update the checkout page
             const cartList = document.getElementById('cart-list');
@@ -102,9 +105,9 @@
             totalPrice.textContent = total.toFixed(2);
         }
 
-        async function removeFromCart(name, price) {
-            const item = { name, price };
-
+        async function removeFromCart(name, price, cart) {
+            const item = { name, price, cartitems };
+            console.log("remove from cart function : ", item);
             try {
                 const response = await fetch('http://localhost:8080/smartkitchen123/api/remove-from-cart', {
                     method: 'POST',
@@ -136,6 +139,7 @@
 
 
         function updateCart(cart, total) {
+            cartitems = [...cart];
             // Update local shopping cart and total price
             console.log('Updated cart:', cart);
             console.log('Updated total:', total);
@@ -179,8 +183,8 @@
             button.addEventListener("click", function () {
                 var name = button.getAttribute("data-name");
                 var price = parseFloat(button.getAttribute("data-price"));
-                console.log("Removing:", name, price);
-                removeFromCart(name, price);
+                console.log("Removing:", name, price, cartitems);
+                removeFromCart(name, price, cartitems);
             });
         });
 
