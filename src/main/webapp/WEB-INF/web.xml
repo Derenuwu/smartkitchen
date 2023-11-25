@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee
+                      https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+  version="6.0"
+  metadata-complete="true">
+
+
+  <servlet>
+    <servlet-name>DishServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.DishServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DishServlet</servlet-name>
+    <url-pattern>/servlet/dish</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>TableServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.TableServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TableServlet</servlet-name>
+    <url-pattern>/servlet/tables</url-pattern>
+    <url-pattern>/servlet/tableinfo</url-pattern>
+  </servlet-mapping>
+
+<servlet>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.AddToCartServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>AddToCartServlet</servlet-name>
+    <url-pattern>/api/add-to-cart</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <servlet-class>com.sm_kitchen.controller.RemoveFromCartServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>RemoveFromCartServlet</servlet-name>
+    <url-pattern>/api/remove-from-cart</url-pattern>
+</servlet-mapping>
+
+
+ <!-- http://localhost:8080/smartkitchen123/servlet/tableinfo?table_id=1-->
+ <!--http://localhost:8080/smartkitchen123/IU/index.html-->
+
+</web-app>
