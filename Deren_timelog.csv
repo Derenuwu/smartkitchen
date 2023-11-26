@@ -46,7 +46,7 @@ Time Log:,,,
 ,,,
 "10/13/2023 10:00 - 6:00  Finished dish servlet class and create an order class for manage orders, encounters error that cannot compiles the java files, so I decided to build up maven files more easier to use. Then I deleted the old files I already push to github and republish from new maven project file again.",,,
 ,,,
-<<<<<<< HEAD
+<<<<<<< HEAD,,,
 "10/14/2023 1:00 - 7:30 Finished order and table servlet class, also fix a a error causes by sql script",,,
 ,,,
 10/15/2023 10:00 - 4:05 Finished dishDao and table Dao class and ready to write the impl,,,
@@ -78,11 +78,11 @@ Time Log:,,,
 "11/21/2023 11:00 - 3:05 Added back the elements on each page for adding and remove, the final next step is to set up a check out page for customer to check out",,,
 ,,,
 11/25/2023 11:00 - 5:00 Modified the checkout page and place to the right bottom. Created a proceed checkout button for customer check out. And last step to set up checkout page,,,
-=======
+=======,,,
 10/14/2023 1:00 - 7:30 Finished order servlet class and table servlet class and fix the error causes by the sql script,,,
-<<<<<<< HEAD
->>>>>>> frondend_dev
-=======
+<<<<<<< HEAD,,,
+>>>>>>> frondend_dev,,,
+=======,,,
 ,,,
 10/15/2023 10:00 - 4:05 Finished dishDao and table Dao class and ready to write the impl,,,
 ,,,
@@ -113,4 +113,6 @@ Time Log:,,,
 "11/21/2023 11:00 - 3:05 Added back the elements on each page for adding and remove, the final next step is to set up a check out page for customer to check out",,,
 ,,,
 11/25/2023 11:00 - 5:00 Modified the checkout page and place to the right bottom. Created a proceed checkout button for customer check out. And last step to set up checkout page,,,
->>>>>>> Frondend_dev
+>>>>>>> Frondend_dev,,,
+,,,
+"11/26.2023 11:00 -5:00 Created a new payment method page for proceed check out, and now customoer able to checkout succefully, one step that need to add when customer enter payment info incorrectly and encouter error.",,,
