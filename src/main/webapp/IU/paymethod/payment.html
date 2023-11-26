@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Custom CSS file link  -->
+    <link rel="stylesheet" href="css/paystyle.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <form id="checkout-form">
+
+            <div class="row">
+
+                <div class="col">
+
+                    <h3 class="title">billing address</h3>
+
+                    <div class="inputBox">
+                        <span>full name :</span>
+                        <input type="text" name="full-name" placeholder="">
+                    </div>
+                    <div class="inputBox">
+                        <span>email :</span>
+                        <input type="email" name="email" placeholder="example@gmail.com">
+                    </div>
+                    <div class="inputBox">
+                        <span>address :</span>
+                        <input type="text" name="address" placeholder="Street number and name">
+                    </div>
+                    <div class="inputBox">
+                        <span>city :</span>
+                        <input type="text" name="city" placeholder="">
+                    </div>
+
+                    <div class="flex">
+                        <div class="inputBox">
+                            <span>state :</span>
+                            <input type="text" name="state" placeholder="">
+                        </div>
+                        <div class="inputBox">
+                            <span>zip code :</span>
+                            <input type="text" name="zip-code" placeholder="6 digits">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col">
+
+                    <h3 class="title">payment</h3>
+
+                    <div class="inputBox">
+                        <span>cards accepted :</span>
+                        <img src="images/card_img.png" alt="">
+                    </div>
+                    <div class="inputBox">
+                        <span>name on card :</span>
+                        <input type="text" name="card-name" placeholder="">
+                    </div>
+                    <div class="inputBox">
+                        <span>credit card number :</span>
+                        <input type="text" name="card-number" placeholder="xxxx-xxxx-xxxx-xxxx">
+                    </div>
+                    <div class="inputBox">
+                        <span>exp month :</span>
+                        <input type="text" name="exp-month" placeholder="01-">
+                    </div>
+
+                    <div class="flex">
+                        <div class="inputBox">
+                            <span>exp year :</span>
+                            <input type="text" name="exp-year" placeholder="2022">
+                        </div>
+                        <div class="inputBox">
+                            <span>CVV :</span>
+                            <input type="text" name="cvv" placeholder="123">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <input type="submit" value="proceed to checkout" class="submit-btn" id="checkout-btn">
+
+        </form>
+
+        <script>
+            var checkoutForm = document.getElementById('checkout-form');
+            var checkoutButton = document.getElementById('checkout-btn');
+
+            checkoutForm.addEventListener('submit', function (event) {
+                // Prevent the form from submitting normally
+                event.preventDefault();
+
+                // Perform your additional validation logic here
+                if (validateForm()) {
+                    // If the form is valid, redirect to the success page
+                    window.location.href = 'success/ck.html';
+                } else {
+                    // If the form is not valid, you can display an error message or take other actions
+                    alert('Please fill in all required fields.');
+                }
+            });
+
+            function validateForm() {
+                // Add your form validation logic here
+                // For example, check if required fields are filled in
+
+                // In this example, we check if the name field is not empty
+                var fullName = document.querySelector('input[name="full-name"]').value.trim();
+                var email = document.querySelector('input[name="email"]').value.trim();
+                var address = document.querySelector('input[name="address"]').value.trim();
+                var city = document.querySelector('input[name="city"]').value.trim();
+                var state = document.querySelector('input[name="state"]').value.trim();
+                var zipCode = document.querySelector('input[name="zip-code"]').value.trim();
+                var cardName = document.querySelector('input[name="card-name"]').value.trim();
+                var cardNumber = document.querySelector('input[name="card-number"]').value.trim();
+                var expMonth = document.querySelector('input[name="exp-month"]').value.trim();
+                var expYear = document.querySelector('input[name="exp-year"]').value.trim();
+                var cvv = document.querySelector('input[name="cvv"]').value.trim();
+
+                if (
+                    fullName === '' || email === '' || address === '' || city === '' ||
+                    state === '' || zipCode === '' || cardName === '' ||
+                    cardNumber === '' || expMonth === '' || expYear === '' || cvv === ''
+                ) {
+                    return false; // Form is not valid
+                }
+
+                // Add more validation checks as needed
+
+                return true; // Form is valid
+            }
+        </script>
+
+    </div>
+
+</body>
+
+</html>
