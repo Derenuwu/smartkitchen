@@ -1,0 +1,32 @@
+body{
+  margin: 0;
+  padding: 0;
+}
+form{
+  display: block !important;
+}
+.method_box{
+  margin: 2vw 0vw;
+  border: 1px solid #dedede;
+  padding: 1vw;
+  border-radius: 1em;
+}
+.method_box .choose_box{
+  display: flex;
+}
+.method_box .choose_box p:nth-child(1){
+  margin-left: 0vw;
+}
+.method_box .choose_box p {
+  margin-left: 5vw;
+}
+.method_box .choose_box p label{
+  margin-left: 1vw;
+}
+.method_box h3{
+  border-bottom: 1px solid #c8c8c8;
+  padding-bottom: 1vw;
+  margin-bottom: 1vw;
+}
+
+
